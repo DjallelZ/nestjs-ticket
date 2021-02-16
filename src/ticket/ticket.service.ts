@@ -17,6 +17,8 @@ export class TicketService {
   processTicketInsertion(ticketString: string): Ticket {
     // Ajout des attributs dans un ticket et récupération de celui-ci
     let returnedTicket: Ticket = this.addTicketAttributesIntoTicket(ticketString);
+    // Sauvegarde/MàJ du ticket en BDD
+    this.ticketRepository.save(returnedTicket);
     return returnedTicket;
   }
 
@@ -56,6 +58,8 @@ export class TicketService {
   processProductsInsertion(rawProducts: string): Product[] {
     // Ajout des produits dans un tableau et récupération de celui-ci
     let returnedProductsArray: Product[] = this.parseProductsIntoAnArray(rawProducts);
+    // Sauvegarde/MàJ des produits en BDD
+    this.productRepository.save(returnedProductsArray);
     return returnedProductsArray;
   }
 
