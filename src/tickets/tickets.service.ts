@@ -1,20 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { Ticket } from "./ticket.entity";
-import { Product } from "./product.model";
+import { Product } from "./product.entity";
 
 @Injectable()
 export class TicketsService {
-
-  createProduct(product: string, product_id: string, price: number): Product {
-    const returnedProduct: Product = {
-      product,
-      product_id,
-      price
-    }
-
-    return returnedProduct;
-  }
-
   // Split le payload brut en deux parties puis initialise la création de l'objet Ticket par la suite
   processTicketInsertion(ticketString: string): Ticket {
     // Split de la partie ticket pour récupérer chaque ligne du ticket dans un tableau
@@ -95,7 +84,8 @@ export class TicketsService {
           }
         }
       }
-      let productToInsert: Product = this.createProduct(product, product_id, price);
+
+      let productToInsert: Product = new Product(product_id, product, price);
       productsArray.push(productToInsert);
     }
     return productsArray;
