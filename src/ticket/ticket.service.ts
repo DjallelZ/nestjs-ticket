@@ -44,42 +44,41 @@ export class TicketService {
   }
 
   processProductsInsertion(rawProducts: string): Product[] {
-    let returnedProductsArray: Product[];
-    // Split de la partie produits pour récupérer chaque ligne de produit dans un tableau
-    let ticketProducts: string[] = rawProducts.split('\r\n');
     // Ajout des produits dans un tableau et récupération de celui-ci
-    returnedProductsArray = this.parseProductsIntoAnArray(ticketProducts);
+    let returnedProductsArray: Product[] = this.parseProductsIntoAnArray(rawProducts);
     return returnedProductsArray;
   }
 
-  parseProductsIntoAnArray(rawProducts: string[]): Product[] {
-    let productsArray: Product[] = [];
+  parseProductsIntoAnArray(rawProducts: string): Product[] {
+    // Tableau de produits à retourner
+    let returnedProductsArray: Product[] = [];
+    // Split de la partie produits pour récupérer chaque ligne de produit dans un tableau
+    let ticketProductLines: string[] = rawProducts.split("\r\n");
     // On split le premier élément du tableau de produits qui contient les entêtes
     // pour récupérer chaque entête dans un tableau
-    let productsHeaders: string[] = rawProducts[0].split(',');
+    let productsHeaders: string[] = ticketProductLines[0].split(",");
     // Pour chaque ligne de produit, entête exclu
-    for (let i: number = 1; i < rawProducts.length; i++) {
+    for (let i: number = 1; i < ticketProductLines.length; i++) {
       let product: string;
       let product_id: string;
       let price: number;
 
       // On split la ligne pour récupérer chaque valeur dans un tableau
-      let lineProductElements: string[] = rawProducts[i].split(',');
+      let lineProductElements: string[] = ticketProductLines[i].split(",");
 
       // Pour chaque valeur splittée de la ligne
-      for(let j: number = 0; j < lineProductElements.length; j++)
-      {
+      for (let j: number = 0; j < lineProductElements.length; j++) {
         // Selon la valeur de l'entête avec le même index, on attribue la bonne valeur à la bonne variable
         switch (productsHeaders[j]) {
-          case 'product': {
+          case "product": {
             product = lineProductElements[j];
             break;
           }
-          case 'product_id': {
+          case "product_id": {
             product_id = lineProductElements[j];
             break;
           }
-          case 'price': {
+          case "price": {
             price = Number(lineProductElements[j]);
             break;
           }
