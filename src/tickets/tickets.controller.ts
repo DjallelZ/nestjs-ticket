@@ -15,7 +15,15 @@ export class TicketsController {
       // Conversion en string puis suppression des espaces blancs aux extrémités
       const ticketString = rawData.toString().trim();
 
-      this.ticketsService.processTicketInsertion(ticketString);
+      // Split du payload pour récupérer la partie ticket et la partie produit dans un tableau
+      let ticketParts: string[] = ticketString.split('\r\n\r\n');
+      // Partie attribus du ticket
+      let ticketAttributes: string = ticketParts[0];
+      // Partie produits du ticket
+      let ticketProducts: string = ticketParts[1];
+      
+      console.log(this.ticketsService.processTicketInsertion(ticketAttributes));
+      console.log(this.ticketsService.processProductsInsertion(ticketProducts))
     }
   }
 }
