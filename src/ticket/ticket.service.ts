@@ -86,8 +86,8 @@ export class TicketService {
       }
 
       let productToInsert: Product = new Product(product_id, product, price);
-      productsArray.push(productToInsert);
+      returnedProductsArray.push(productToInsert);
     }
-    return productsArray;
+    return returnedProductsArray;
   }
 }
