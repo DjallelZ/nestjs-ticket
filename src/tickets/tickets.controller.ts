@@ -21,7 +21,7 @@ export class TicketsController {
       let ticketAttributes: string = ticketParts[0];
       // Partie produits du ticket
       let ticketProducts: string = ticketParts[1];
-      
+
       console.log(this.ticketsService.processTicketInsertion(ticketAttributes));
       console.log(this.ticketsService.processProductsInsertion(ticketProducts))
     }

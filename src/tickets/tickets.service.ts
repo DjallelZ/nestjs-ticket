@@ -62,35 +62,6 @@ export class TicketsService {
     return returnedProductsArray;
   }
 
-  // addTicketAttributesAndProductsIntoTicket(ticketAttributes: string[], ticketProducts: string[]): Ticket {
-  //   let order: number;
-  //   let vat: number;
-  //   let total: number;
-  //   // Pour chaque ligne contenu dans le tableau d'attributs
-  //   for (let i: number = 0; i < ticketAttributes.length; i++) {
-  //     // Split de la ligne pour dissocier la clé de la valeur
-  //     let attributeLine: string[] = ticketAttributes[i].split(': ');
-  //     // Selon la valeur de la clé, on attribue la bonne valeur à la bonne variable
-  //     switch (attributeLine[0]) {
-  //       case 'Order': {
-  //         order = Number(attributeLine[1]);
-  //         break;
-  //       }
-  //       case 'VAT': {
-  //         vat = Number(attributeLine[1]);
-  //         break;
-  //       }
-  //       case 'Total': {
-  //         total = Number(attributeLine[1]);
-  //         break;
-  //       }
-  //     }
-  //   }
-  //   let products: Product[] = this.parseProductsIntoAnArray(ticketProducts);
-  //   let returnedTicket: Ticket = this.createTicket(order, vat, total, products);
-  //   return returnedTicket;
-  // }
-
   parseProductsIntoAnArray(rawProducts: string[]): Product[] {
     let productsArray: Product[] = [];
     // On split le premier élément du tableau de produits qui contient les entêtes
