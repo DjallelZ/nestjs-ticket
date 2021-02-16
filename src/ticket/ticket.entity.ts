@@ -4,9 +4,9 @@ import { BaseEntity, Column, Entity, PrimaryColumn } from "typeorm";
 export class Ticket extends BaseEntity {
   @PrimaryColumn()
   order: number;
-  @Column()
+  @Column("float")
   vat: number;
-  @Column()
+  @Column("float")
   total: number;
 
   constructor(order: number, vat: number, total: number) {

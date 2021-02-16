@@ -6,7 +6,7 @@ export class Product extends BaseEntity {
   product_id: string;
   @Column()
   product: string;
-  @Column()
+  @Column("float")
   price: number;
 
   constructor(product_id: string, product: string, price: number) {
