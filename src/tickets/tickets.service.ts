@@ -1,19 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { Ticket } from "./ticket.model";
+import { Ticket } from "./ticket.entity";
 import { Product } from "./product.model";
 
 @Injectable()
 export class TicketsService {
-
-  createTicket(order: number, vat: number, total: number): Ticket {
-    const ticket: Ticket = {
-      order,
-      vat,
-      total
-    }
-
-    return ticket;
-  }
 
   createProduct(product: string, product_id: string, price: number): Product {
     const returnedProduct: Product = {
@@ -58,7 +48,8 @@ export class TicketsService {
         }
       }
     }
-    let returnedTicket: Ticket = this.createTicket(order, vat, total);
+
+    let returnedTicket: Ticket = new Ticket(order, vat, total);
     return returnedTicket;
   }
 
