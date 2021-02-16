@@ -1,38 +1,42 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable } from "@nestjs/common";
 import { Ticket } from "./ticket.entity";
 import { Product } from "./product.entity";
 
 @Injectable()
 export class TicketService {
 
-    // Split le payload brut en deux parties puis initialise la création de l'objet Ticket par la suite
-    processTicketInsertion(ticketString: string): Ticket {
-    // Split de la partie ticket pour récupérer chaque ligne du ticket dans un tableau
-    let ticketAttributes: string[] = ticketString.split('\r\n');
+
+
+  // Split le payload brut en deux parties puis initialise la création de l'objet Ticket par la suite
+  processTicketInsertion(ticketString: string): Ticket {
     // Ajout des attributs dans un ticket et récupération de celui-ci
-    let returnedTicket: Ticket = this.addTicketAttributesIntoTicket(ticketAttributes);
+    let returnedTicket: Ticket = this.addTicketAttributesIntoTicket(ticketString);
     return returnedTicket;
   }
 
-  addTicketAttributesIntoTicket(ticketAttributes: string[]): Ticket {
+  addTicketAttributesIntoTicket(ticketString: string): Ticket {
+    // Split de la partie ticket pour récupérer chaque ligne du ticket dans un tableau
+    let ticketAttributes: string[] = ticketString.split("\r\n");
+    // Ajout des attributs dans un ticket et récupération de celui-ci
+
     let order: number;
     let vat: number;
     let total: number;
     // Pour chaque ligne contenu dans le tableau d'attributs
     for (let i: number = 0; i < ticketAttributes.length; i++) {
       // Split de la ligne pour dissocier la clé de la valeur
-      let attributeLine: string[] = ticketAttributes[i].split(': ');
+      let attributeLine: string[] = ticketAttributes[i].split(": ");
       // Selon la valeur de la clé, on attribue la bonne valeur à la bonne variable
       switch (attributeLine[0]) {
-        case 'Order': {
+        case "Order": {
           order = Number(attributeLine[1]);
           break;
         }
-        case 'VAT': {
+        case "VAT": {
           vat = Number(attributeLine[1]);
           break;
         }
-        case 'Total': {
+        case "Total": {
           total = Number(attributeLine[1]);
           break;
         }
