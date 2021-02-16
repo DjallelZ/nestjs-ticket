@@ -5,12 +5,11 @@ import { Product } from "./product.model";
 @Injectable()
 export class TicketsService {
 
-  createTicket(order: number, vat: number, total: number, products: Product[]): Ticket {
+  createTicket(order: number, vat: number, total: number): Ticket {
     const ticket: Ticket = {
       order,
       vat,
-      total,
-      products
+      total
     }
 
     return ticket;
@@ -28,20 +27,14 @@ export class TicketsService {
 
   // Split le payload brut en deux parties puis initialise la création de l'objet Ticket par la suite
   processTicketInsertion(ticketString: string): Ticket {
-    // Split du payload pour récupérer la partie ticket et la partie produit dans un tableau
-    let ticketParts: string[] = ticketString.split('\r\n\r\n');
-    // Split de la partie ticket pour récupérer chaque ligne dans un tableau
-    let ticketAttributes: string[] = ticketParts[0].split('\r\n');
-    // Split de la partie ticket pour récupérer chaque ligne dans un tableau
-    let ticketProducts: string[] = ticketParts[1].split('\r\n');
-
-    let returnedTicket: Ticket = this.addTicketAttributesAndProductsIntoTicket(ticketAttributes, ticketProducts);
-    console.log('returnedTicket: ', returnedTicket);
+    // Split de la partie ticket pour récupérer chaque ligne du ticket dans un tableau
+    let ticketAttributes: string[] = ticketString.split('\r\n');
+    // Ajout des attributs dans un ticket et récupération de celui-ci
+    let returnedTicket: Ticket = this.addTicketAttributesIntoTicket(ticketAttributes);
     return returnedTicket;
   }
 
-
-  addTicketAttributesAndProductsIntoTicket(ticketAttributes: string[], ticketProducts: string[]): Ticket {
+  addTicketAttributesIntoTicket(ticketAttributes: string[]): Ticket {
     let order: number;
     let vat: number;
     let total: number;
@@ -65,24 +58,61 @@ export class TicketsService {
         }
       }
     }
-    let products: Product[] = this.parseProductsIntoAnArray(ticketProducts);
-    let returnedTicket: Ticket = this.createTicket(order, vat, total, products);
+    let returnedTicket: Ticket = this.createTicket(order, vat, total);
     return returnedTicket;
   }
 
-  parseProductsIntoAnArray(products: string[]): Product[] {
+  processProductsInsertion(rawProducts: string): Product[] {
+    let returnedProductsArray: Product[];
+    // Split de la partie produits pour récupérer chaque ligne de produit dans un tableau
+    let ticketProducts: string[] = rawProducts.split('\r\n');
+    // Ajout des produits dans un tableau et récupération de celui-ci
+    returnedProductsArray = this.parseProductsIntoAnArray(ticketProducts);
+    return returnedProductsArray;
+  }
+
+  // addTicketAttributesAndProductsIntoTicket(ticketAttributes: string[], ticketProducts: string[]): Ticket {
+  //   let order: number;
+  //   let vat: number;
+  //   let total: number;
+  //   // Pour chaque ligne contenu dans le tableau d'attributs
+  //   for (let i: number = 0; i < ticketAttributes.length; i++) {
+  //     // Split de la ligne pour dissocier la clé de la valeur
+  //     let attributeLine: string[] = ticketAttributes[i].split(': ');
+  //     // Selon la valeur de la clé, on attribue la bonne valeur à la bonne variable
+  //     switch (attributeLine[0]) {
+  //       case 'Order': {
+  //         order = Number(attributeLine[1]);
+  //         break;
+  //       }
+  //       case 'VAT': {
+  //         vat = Number(attributeLine[1]);
+  //         break;
+  //       }
+  //       case 'Total': {
+  //         total = Number(attributeLine[1]);
+  //         break;
+  //       }
+  //     }
+  //   }
+  //   let products: Product[] = this.parseProductsIntoAnArray(ticketProducts);
+  //   let returnedTicket: Ticket = this.createTicket(order, vat, total, products);
+  //   return returnedTicket;
+  // }
+
+  parseProductsIntoAnArray(rawProducts: string[]): Product[] {
     let productsArray: Product[] = [];
     // On split le premier élément du tableau de produits qui contient les entêtes
     // pour récupérer chaque entête dans un tableau
-    let productsHeaders: string[] = products[0].split(',');
+    let productsHeaders: string[] = rawProducts[0].split(',');
     // Pour chaque ligne de produit, entête exclu
-    for (let i: number = 1; i < products.length; i++) {
+    for (let i: number = 1; i < rawProducts.length; i++) {
       let product: string;
       let product_id: string;
       let price: number;
 
       // On split la ligne pour récupérer chaque valeur dans un tableau
-      let lineProductElements: string[] = products[i].split(',');
+      let lineProductElements: string[] = rawProducts[i].split(',');
 
       // Pour chaque valeur splittée de la ligne
       for(let j: number = 0; j < lineProductElements.length; j++)
@@ -103,11 +133,9 @@ export class TicketsService {
           }
         }
       }
-
       let productToInsert: Product = this.createProduct(product, product_id, price);
       productsArray.push(productToInsert);
     }
-
     return productsArray;
   }
 }
