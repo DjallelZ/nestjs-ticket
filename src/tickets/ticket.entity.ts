@@ -8,4 +8,12 @@ export class Ticket extends BaseEntity {
   vat: number;
   @Column()
   total: number;
+
+  constructor(order: number, vat: number, total: number) {
+    super();
+    this.order = order;
+    this.vat = vat;
+    this.total = total;
+  }
+
 }
