@@ -4,8 +4,9 @@ import { Product } from "./product.entity";
 
 @Injectable()
 export class TicketsService {
-  // Split le payload brut en deux parties puis initialise la création de l'objet Ticket par la suite
-  processTicketInsertion(ticketString: string): Ticket {
+
+    // Split le payload brut en deux parties puis initialise la création de l'objet Ticket par la suite
+    processTicketInsertion(ticketString: string): Ticket {
     // Split de la partie ticket pour récupérer chaque ligne du ticket dans un tableau
     let ticketAttributes: string[] = ticketString.split('\r\n');
     // Ajout des attributs dans un ticket et récupération de celui-ci
