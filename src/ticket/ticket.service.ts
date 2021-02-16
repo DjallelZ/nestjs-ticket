@@ -1,12 +1,18 @@
 import { Injectable } from "@nestjs/common";
 import { Ticket } from "./ticket.entity";
 import { Product } from "./product.entity";
+import { TicketRepository } from "./ticket.repository";
+import { InjectRepository } from "@nestjs/typeorm";
+import { ProductRepository } from "./product.repository";
 
 @Injectable()
 export class TicketService {
-
-
-
+  constructor(
+    @InjectRepository(TicketRepository)
+    private ticketRepository: TicketRepository,
+    @InjectRepository(ProductRepository)
+    private productRepository: ProductRepository,
+    ) {}
   // Split le payload brut en deux parties puis initialise la création de l'objet Ticket par la suite
   processTicketInsertion(ticketString: string): Ticket {
     // Ajout des attributs dans un ticket et récupération de celui-ci
