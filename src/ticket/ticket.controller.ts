@@ -8,7 +8,7 @@ export class TicketController {
   constructor(private ticketsService: TicketService) {}
 
   @Post()
-  async processTicket(@Body() body, @Req() req) {
+  async processTicket(@Req() req) {
     if (req.readable) {
       // Le corps est ignoré par NestJS -> Il faut obtenir le body brut à partir de la requête
       const rawData = await rawbody(req);
