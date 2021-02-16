@@ -3,7 +3,7 @@ import { Ticket } from "./ticket.entity";
 import { Product } from "./product.entity";
 
 @Injectable()
-export class TicketsService {
+export class TicketService {
 
     // Split le payload brut en deux parties puis initialise la création de l'objet Ticket par la suite
     processTicketInsertion(ticketString: string): Ticket {

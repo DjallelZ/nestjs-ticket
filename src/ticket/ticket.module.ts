@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { TicketsController } from './tickets.controller';
-import { TicketsService } from './tickets.service';
+import { TicketController } from './ticket.controller';
+import { TicketService } from './ticket.service';
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { TicketRepository } from "./ticket.repository";
 
@@ -8,7 +8,7 @@ import { TicketRepository } from "./ticket.repository";
   imports: [
     TypeOrmModule.forFeature([TicketRepository])
   ],
-  controllers: [TicketsController],
-  providers: [TicketsService],
+  controllers: [TicketController],
+  providers: [TicketService],
 })
-export class TicketsModule {}
+export class TicketModule {}

@@ -1,11 +1,11 @@
 import * as rawbody from 'raw-body';
 import { Body, Controller, Post, Req } from "@nestjs/common";
-import { TicketsService } from "./tickets.service";
+import { TicketService } from "./ticket.service";
 
 @Controller('ticket')
 //@Controller('ticket')
-export class TicketsController {
-  constructor(private ticketsService: TicketsService) {}
+export class TicketController {
+  constructor(private ticketsService: TicketService) {}
 
   @Post()
   async processTicket(@Body() body, @Req() req) {
