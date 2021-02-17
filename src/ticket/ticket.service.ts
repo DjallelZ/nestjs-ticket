@@ -4,6 +4,8 @@ import { Product } from "../product/product.entity";
 import { TicketRepository } from "./ticket.repository";
 import { InjectRepository } from "@nestjs/typeorm";
 import { ProductRepository } from "../product/product.repository";
+import { RawTicket } from "../raw-ticket/raw-ticket.entity";
+import { RawTicketRepository } from "../raw-ticket/raw-ticket.repository";
 
 @Injectable()
 export class TicketService {
@@ -12,6 +14,8 @@ export class TicketService {
     private ticketRepository: TicketRepository,
     @InjectRepository(ProductRepository)
     private productRepository: ProductRepository,
+    @InjectRepository(RawTicketRepository)
+    private rawTicketRepository: RawTicketRepository,
     ) {}
 
   processTicket(ticketString: string, rawProducts: string): Ticket {
@@ -20,6 +24,11 @@ export class TicketService {
     return returnedTicket;
   }
 
+  processRawTicket(ticket: string) {
+    let rawTicket: RawTicket = new RawTicket(ticket);
+    this.rawTicketRepository.save(rawTicket);
+    return rawTicket;
+  }
   addTicketAttributesIntoTicket(ticketString: string, rawProducts: string): Ticket {
     // Split de la partie ticket pour récupérer chaque ligne du ticket dans un tableau
     let ticketAttributes: string[] = ticketString.split("\r\n");
