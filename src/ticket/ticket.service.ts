@@ -85,7 +85,7 @@ export class TicketService {
       // Pour chaque valeur splittée de la ligne
       for (let j: number = 0; j < lineProductElements.length; j++) {
         // Selon la valeur de l'entête avec le même index, on attribue la bonne valeur à la bonne variable
-        switch (productsHeaders[j]) {
+        switch (productsHeaders[j].toLowerCase()) {
           case "product": {
             product = lineProductElements[j];
             break;
