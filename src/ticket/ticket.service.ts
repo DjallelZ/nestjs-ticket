@@ -100,23 +100,35 @@ export class TicketService {
         // Selon la valeur de l'entête avec le même index, on attribue la bonne valeur à la bonne variable
         switch (productsHeaders[j].toLowerCase()) {
           case "product": {
+            if(lineProductElements[j] == "") {
+              throw new BadRequestException();
+            }
             product = lineProductElements[j];
             break;
           }
           case "product_id": {
+            if(lineProductElements[j] == "") {
+              throw new BadRequestException();
+            }
             product_id = lineProductElements[j];
             break;
           }
           case "price": {
+            if(isNaN(Number(lineProductElements[j]))) {
+              throw new BadRequestException();
+            }
             price = Number(lineProductElements[j]);
             break;
           }
         }
       }
 
+      // Création du produit
       let productToInsert: Product = new Product(product_id, product, price);
+      // Ajout dans le tableau à retourner
       returnedProductsArray.push(productToInsert);
     }
     return returnedProductsArray;
   }
 }
+
