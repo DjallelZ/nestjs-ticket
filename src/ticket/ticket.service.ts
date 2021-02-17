@@ -20,12 +20,18 @@ export class TicketService {
 
   /**
    * Procède au traitement du ticket
-   * @param ticketString - Partie "attributs" du ticket (e.g., order, vat, total)
-   * @param rawProducts - Partie "produits" du ticket (lignes d'entête + produits)
+   * @param ticketString - Ticket reçu au travers de la requête sous forme de chaînes de caractères
    * @returns - retourne le ticket enrichi de ses attributs et d'un tableau de produits
    */
-  processTicket(ticketString: string, rawProducts: string): Ticket {
-    let returnedTicket: Ticket = this.addTicketAttributesIntoTicket(ticketString, rawProducts);
+  processTicket(ticketString: string): Ticket {
+
+    let ticketParts: string[] = ticketString.split('\r\n\r\n');
+    
+    let ticketAttributes: string = ticketParts[0];
+
+    let ticketProducts: string = ticketParts[1];
+
+    let returnedTicket: Ticket = this.addTicketAttributesIntoTicket(ticketAttributes, ticketProducts);
     this.ticketRepository.save(returnedTicket);
     return returnedTicket;
   }
