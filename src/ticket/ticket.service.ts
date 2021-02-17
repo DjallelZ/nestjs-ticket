@@ -1,9 +1,9 @@
 import { BadRequestException, Injectable } from "@nestjs/common";
 import { Ticket } from "./ticket.entity";
-import { Product } from "./product.entity";
+import { Product } from "../product/product.entity";
 import { TicketRepository } from "./ticket.repository";
 import { InjectRepository } from "@nestjs/typeorm";
-import { ProductRepository } from "./product.repository";
+import { ProductRepository } from "../product/product.repository";
 
 @Injectable()
 export class TicketService {
