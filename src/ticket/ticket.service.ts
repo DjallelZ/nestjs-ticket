@@ -19,7 +19,7 @@ export class TicketService {
     this.ticketRepository.save(returnedTicket);
     return returnedTicket;
   }
-  
+
   addTicketAttributesIntoTicket(ticketString: string, rawProducts: string): Ticket {
     // Split de la partie ticket pour récupérer chaque ligne du ticket dans un tableau
     let ticketAttributes: string[] = ticketString.split("\r\n");

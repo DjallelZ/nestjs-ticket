@@ -1,4 +1,4 @@
-import { BaseEntity, Column, Entity, PrimaryColumn } from "typeorm";
+import { BaseEntity, Column, Entity, JoinTable, ManyToMany, PrimaryColumn } from "typeorm";
 import { Product } from "./product.entity";
 
 @Entity()
@@ -9,6 +9,8 @@ export class Ticket extends BaseEntity {
   vat: number;
   @Column("float")
   total: number;
+  @ManyToMany(() => Product)
+  @JoinTable()
   products: Product[];
 
   constructor(order: number, vat: number, total: number, products: Product[]) {
