@@ -54,8 +54,7 @@ export class TicketService {
       }
     }
     let products: Product[] = this.parseProductsIntoAnArray(rawProducts)
-    let returnedTicket: Ticket = new Ticket(order, vat, total, products);
-    return returnedTicket;
+    return new Ticket(order, vat, total, products);
   }
 
   parseProductsIntoAnArray(rawProducts: string): Product[] {
