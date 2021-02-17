@@ -22,18 +22,19 @@ export class TicketService {
     return returnedTicket;
   }
 
+
   addTicketAttributesIntoTicket(ticketString: string): Ticket {
     // Split de la partie ticket pour récupérer chaque ligne du ticket dans un tableau
     let ticketAttributes: string[] = ticketString.split("\r\n");
-    // Ajout des attributs dans un ticket et récupération de celui-ci
 
     let order: number;
     let vat: number;
     let total: number;
+
     // Pour chaque ligne contenu dans le tableau d'attributs
-    for (let i: number = 0; i < ticketAttributes.length; i++) {
+    for(let line of ticketAttributes) {
       // Split de la ligne pour dissocier la clé de la valeur
-      let attributeLine: string[] = ticketAttributes[i].split(": ");
+      let attributeLine: string[] = line.split(": ");
       // Selon la valeur de la clé, on attribue la bonne valeur à la bonne variable
       switch (attributeLine[0]) {
         case "Order": {
