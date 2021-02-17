@@ -10,6 +10,7 @@ export class TicketController {
   @Post()
   async processTicket(@Req() req) {
     if (req.readable) {
+
       // Le corps est ignoré par NestJS -> Il faut obtenir le body brut à partir de la requête
       const rawData = await rawbody(req);
       // Conversion en string puis suppression des espaces blancs aux extrémités
@@ -24,8 +25,6 @@ export class TicketController {
 
       try {
         console.log(this.ticketsService.processTicket(ticketAttributes, ticketProducts));
-        // console.log(this.ticketsService.processTicketInsertion(ticketAttributes));
-        // console.log(this.ticketsService.processProductsInsertion(ticketProducts));
       } catch (error) {
         return(error);
       }
