@@ -22,8 +22,13 @@ export class TicketController {
       // Partie produits du ticket
       let ticketProducts: string = ticketParts[1];
 
-      console.log(this.ticketsService.processTicketInsertion(ticketAttributes));
-      console.log(this.ticketsService.processProductsInsertion(ticketProducts))
+      try {
+        console.log(this.ticketsService.processTicket(ticketAttributes, ticketProducts));
+        // console.log(this.ticketsService.processTicketInsertion(ticketAttributes));
+        // console.log(this.ticketsService.processProductsInsertion(ticketProducts));
+      } catch (error) {
+        return(error);
+      }
     }
   }
 }

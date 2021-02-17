@@ -13,17 +13,14 @@ export class TicketService {
     @InjectRepository(ProductRepository)
     private productRepository: ProductRepository,
     ) {}
-  // Split le payload brut en deux parties puis initialise la création de l'objet Ticket par la suite
-  processTicketInsertion(ticketString: string): Ticket {
-    // Ajout des attributs dans un ticket et récupération de celui-ci
-    let returnedTicket: Ticket = this.addTicketAttributesIntoTicket(ticketString);
-    // Sauvegarde/MàJ du ticket en BDD
+
+  processTicket(ticketString: string, rawProducts: string): Ticket {
+    let returnedTicket: Ticket = this.addTicketAttributesIntoTicket(ticketString, rawProducts);
     this.ticketRepository.save(returnedTicket);
     return returnedTicket;
   }
-
-
-  addTicketAttributesIntoTicket(ticketString: string): Ticket {
+  
+  addTicketAttributesIntoTicket(ticketString: string, rawProducts: string): Ticket {
     // Split de la partie ticket pour récupérer chaque ligne du ticket dans un tableau
     let ticketAttributes: string[] = ticketString.split("\r\n");
 
@@ -56,17 +53,9 @@ export class TicketService {
         }
       }
     }
-
-    let returnedTicket: Ticket = new Ticket(order, vat, total);
+    let products: Product[] = this.parseProductsIntoAnArray(rawProducts)
+    let returnedTicket: Ticket = new Ticket(order, vat, total, products);
     return returnedTicket;
-  }
-
-  processProductsInsertion(rawProducts: string): Product[] {
-    // Ajout des produits dans un tableau et récupération de celui-ci
-    let returnedProductsArray: Product[] = this.parseProductsIntoAnArray(rawProducts);
-    // Sauvegarde/MàJ des produits en BDD
-    this.productRepository.save(returnedProductsArray);
-    return returnedProductsArray;
   }
 
   parseProductsIntoAnArray(rawProducts: string): Product[] {
