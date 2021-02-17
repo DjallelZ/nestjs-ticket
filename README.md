@@ -7,7 +7,7 @@ Gestion d'un ticket de caisse avec NestJS et TypeScript.
 ```bash
 $ npm install
 ```
-## Installation
+## Configuration de l'ORM
 
 La configuration du fichier "typeorm.config.ts" permet de renseigner les informations de connexion à votre base de données de test (port, username, etc.)
 
