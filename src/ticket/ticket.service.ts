@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { BadRequestException, Injectable } from "@nestjs/common";
 import { Ticket } from "./ticket.entity";
 import { Product } from "./product.entity";
 import { TicketRepository } from "./ticket.repository";
@@ -72,11 +72,20 @@ export class TicketService {
   parseProductsIntoAnArray(rawProducts: string): Product[] {
     // Tableau de produits à retourner
     let returnedProductsArray: Product[] = [];
+
     // Split de la partie produits pour récupérer chaque ligne de produit dans un tableau
     let ticketProductLines: string[] = rawProducts.split("\r\n");
+
     // On split le premier élément du tableau de produits qui contient les entêtes
-    // pour récupérer chaque entête dans un tableau
+    // pour les récupérer dans un tableau
     let productsHeaders: string[] = ticketProductLines[0].split(",");
+
+    for(let header of productsHeaders) {
+      if(header.toLowerCase() != 'product' && header.toLowerCase() != 'product_id' && header.toLowerCase() != 'price') {
+        throw new BadRequestException();
+      }
+    }
+
     // Pour chaque ligne de produit, entête exclu
     for (let i: number = 1; i < ticketProductLines.length; i++) {
       let product: string;
