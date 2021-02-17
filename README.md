@@ -30,7 +30,7 @@ $ npm run start:prod
 ## Fonctionnement
 
 L'application permet de procéder à la bonne gestion du ticket de caisse si ces conditions sont respectées : 
- - Les attributs du ticket sont en première partie et séparée des produits par un saut de ligne.
+ - Les attributs du ticket sont en première partie et séparés des produits par un saut de ligne.
  - Les 3 attributs fournis pour le ticket sont exclusivement et obligatoirement : "order", "vat", "total". Insensibles à la casse, l'odre n'importe pas.
  - Les 3 entêtes des produits sont exclusivement et obligatoirement : "product", "product_id", "price". Insensibles à la casse, l'ordre n'importe pas.
  - Les valeurs des attributs et des entêtes ne sont pas vides et correspondent bien aux types qu'ils représentent (ex: un prix ne doit pas inclure de lettres).
