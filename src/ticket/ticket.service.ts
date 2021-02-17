@@ -36,16 +36,17 @@ export class TicketService {
       // Split de la ligne pour dissocier la clé de la valeur
       let attributeLine: string[] = line.split(": ");
       // Selon la valeur de la clé, on attribue la bonne valeur à la bonne variable
-      switch (attributeLine[0]) {
-        case "Order": {
+      switch (attributeLine[0].toLowerCase()) {
+        case "order": {
           order = Number(attributeLine[1]);
           break;
         }
-        case "VAT": {
+        case "vat": {
           vat = Number(attributeLine[1]);
           break;
+
         }
-        case "Total": {
+        case "total": {
           total = Number(attributeLine[1]);
           break;
         }
