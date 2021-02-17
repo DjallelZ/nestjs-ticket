@@ -18,17 +18,36 @@ export class TicketService {
     private rawTicketRepository: RawTicketRepository,
     ) {}
 
+  /**
+   * Procède au traitement du ticket
+   * @param ticketString - Partie "attributs" du ticket (e.g., order, vat, total)
+   * @param rawProducts - Partie "produits" du ticket (lignes d'entête + produits)
+   * @returns - retourne le ticket enrichi de ses attributs et d'un tableau de produits
+   */
   processTicket(ticketString: string, rawProducts: string): Ticket {
     let returnedTicket: Ticket = this.addTicketAttributesIntoTicket(ticketString, rawProducts);
     this.ticketRepository.save(returnedTicket);
     return returnedTicket;
   }
 
+  /**
+   * Procède à la création d'une instance RawTicket et de son insertion en BDD
+   * lorsque le ticket initial est dans un format incorrect
+   * @param ticket - Contenu du ticket émis par le client
+   * @returns - Objet RawTicket créé
+   */
   processRawTicket(ticket: string) {
     let rawTicket: RawTicket = new RawTicket(ticket);
     this.rawTicketRepository.save(rawTicket);
     return rawTicket;
   }
+
+  /**
+   * Crée puis retourne l'objet Ticket à partir des chaînes de caractères fournies
+   * @param ticketString - Partie "attributs" du ticket (e.g., order, vat, total)
+   * @param rawProducts - Partie "produits" du ticket (lignes d'entête + produits)
+   * @returns - retourne le ticket enrichi de ses attributs et d'un tableau de produits
+   */
   addTicketAttributesIntoTicket(ticketString: string, rawProducts: string): Ticket {
     // Split de la partie ticket pour récupérer chaque ligne du ticket dans un tableau
     let ticketAttributes: string[] = ticketString.split("\r\n");
@@ -41,6 +60,7 @@ export class TicketService {
     for(let line of ticketAttributes) {
       // Split de la ligne pour dissocier la clé de la valeur
       let attributeLine: string[] = line.split(": ");
+
 
       if((attributeLine[0].toLowerCase() != 'order' && attributeLine[0].toLowerCase() != 'vat' && attributeLine[0].toLowerCase() != 'total') || isNaN(Number(attributeLine[1]))) {
         throw new BadRequestException();
@@ -66,6 +86,11 @@ export class TicketService {
     return new Ticket(order, vat, total, products);
   }
 
+  /**
+   * Parse la chaîne de caractères pour créer  des objets Product et les retourner sous forme de tableau
+   * @param rawProducts - Partie "produits" du ticket (lignes d'entête + liste de produits)
+   * @returns - retourne un tableau de produits
+   */
   parseProductsIntoAnArray(rawProducts: string): Product[] {
     let returnedProductsArray: Product[] = [];
 
@@ -91,7 +116,6 @@ export class TicketService {
       // On split la ligne pour récupérer chaque valeur dans un tableau
       let lineProductElements: string[] = ticketProductLines[i].split(",");
 
-      // Pour chaque valeur splittée de la ligne
       for (let j: number = 0; j < lineProductElements.length; j++) {
         // Selon la valeur de l'entête avec le même index, on attribue la bonne valeur à la bonne variable
         switch (productsHeaders[j].toLowerCase()) {
@@ -119,9 +143,7 @@ export class TicketService {
         }
       }
 
-      // Création du produit
       let productToInsert: Product = new Product(product_id, product, price);
-      // Ajout dans le tableau à retourner
       returnedProductsArray.push(productToInsert);
     }
     return returnedProductsArray;
