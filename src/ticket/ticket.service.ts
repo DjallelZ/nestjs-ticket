@@ -32,7 +32,7 @@ export class TicketService {
     for(let line of ticketAttributes) {
       // Split de la ligne pour dissocier la clé de la valeur
       let attributeLine: string[] = line.split(": ");
-      // Si la clé n'est pas l'une attendue ou si la valeur n'est pas un nombre, on retourne une exception
+
       if((attributeLine[0].toLowerCase() != 'order' && attributeLine[0].toLowerCase() != 'vat' && attributeLine[0].toLowerCase() != 'total') || isNaN(Number(attributeLine[1]))) {
         throw new BadRequestException();
       }
@@ -58,7 +58,6 @@ export class TicketService {
   }
 
   parseProductsIntoAnArray(rawProducts: string): Product[] {
-    // Tableau de produits à retourner
     let returnedProductsArray: Product[] = [];
 
     // Split de la partie produits pour récupérer chaque ligne de produit dans un tableau
