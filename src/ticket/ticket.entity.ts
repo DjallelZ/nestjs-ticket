@@ -9,7 +9,7 @@ export class Ticket extends BaseEntity {
   vat: number;
   @Column("float")
   total: number;
-  @ManyToMany(() => Product)
+  @ManyToMany(() => Product, {cascade: ["insert", "update"] })
   @JoinTable()
   products: Product[];
 
