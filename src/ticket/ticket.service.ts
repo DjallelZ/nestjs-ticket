@@ -25,13 +25,13 @@ export class TicketService {
    */
   processTicket(ticketString: string): Ticket {
 
-    let ticketParts: string[] = ticketString.split('\r\n\r\n');
+    const ticketParts: string[] = ticketString.split('\r\n\r\n');
     
-    let ticketAttributes: string = ticketParts[0];
+    const ticketAttributes: string = ticketParts[0];
 
-    let ticketProducts: string = ticketParts[1];
+    const ticketProducts: string = ticketParts[1];
 
-    let returnedTicket: Ticket = this.addTicketAttributesIntoTicket(ticketAttributes, ticketProducts);
+    const returnedTicket: Ticket = this.addTicketAttributesIntoTicket(ticketAttributes, ticketProducts);
     this.ticketRepository.save(returnedTicket);
     return returnedTicket;
   }
@@ -43,7 +43,7 @@ export class TicketService {
    * @returns - Objet RawTicket créé
    */
   processRawTicket(ticket: string) {
-    let rawTicket: RawTicket = new RawTicket(ticket);
+    const rawTicket: RawTicket = new RawTicket(ticket);
     this.rawTicketRepository.save(rawTicket);
     return rawTicket;
   }
@@ -56,7 +56,7 @@ export class TicketService {
    */
   addTicketAttributesIntoTicket(ticketString: string, rawProducts: string): Ticket {
     // Split de la partie ticket pour récupérer chaque ligne du ticket dans un tableau
-    let ticketAttributes: string[] = ticketString.split("\r\n");
+    const ticketAttributes: string[] = ticketString.split("\r\n");
 
     let order: number;
     let vat: number;
@@ -65,8 +65,7 @@ export class TicketService {
     // Pour chaque ligne contenu dans le tableau d'attributs
     for(let line of ticketAttributes) {
       // Split de la ligne pour dissocier la clé de la valeur
-      let attributeLine: string[] = line.split(": ");
-
+      const attributeLine: string[] = line.split(": ");
 
       if((attributeLine[0].toLowerCase() != 'order' && attributeLine[0].toLowerCase() != 'vat' && attributeLine[0].toLowerCase() != 'total') || isNaN(Number(attributeLine[1]))) {
         throw new BadRequestException();
@@ -88,7 +87,7 @@ export class TicketService {
         }
       }
     }
-    let products: Product[] = this.parseProductsIntoAnArray(rawProducts)
+    const products: Product[] = this.parseProductsIntoAnArray(rawProducts)
     return new Ticket(order, vat, total, products);
   }
 
@@ -101,11 +100,11 @@ export class TicketService {
     let returnedProductsArray: Product[] = [];
 
     // Split de la partie produits pour récupérer chaque ligne de produit dans un tableau
-    let ticketProductLines: string[] = rawProducts.split("\r\n");
+    const ticketProductLines: string[] = rawProducts.split("\r\n");
 
     // On split le premier élément du tableau de produits qui contient les entêtes
     // pour les récupérer dans un tableau
-    let productsHeaders: string[] = ticketProductLines[0].split(",");
+    const productsHeaders: string[] = ticketProductLines[0].split(",");
 
     for(let header of productsHeaders) {
       if(header.toLowerCase() != 'product' && header.toLowerCase() != 'product_id' && header.toLowerCase() != 'price') {
@@ -120,7 +119,7 @@ export class TicketService {
       let price: number;
 
       // On split la ligne pour récupérer chaque valeur dans un tableau
-      let lineProductElements: string[] = ticketProductLines[i].split(",");
+      const lineProductElements: string[] = ticketProductLines[i].split(",");
 
       for (let j: number = 0; j < lineProductElements.length; j++) {
         // Selon la valeur de l'entête avec le même index, on attribue la bonne valeur à la bonne variable
@@ -149,7 +148,7 @@ export class TicketService {
         }
       }
 
-      let productToInsert: Product = new Product(product_id, product, price);
+      const productToInsert: Product = new Product(product_id, product, price);
       returnedProductsArray.push(productToInsert);
     }
     return returnedProductsArray;
