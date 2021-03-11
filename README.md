@@ -25,7 +25,7 @@ $ npm run start:prod
 ```
 L'application est accessible par défaut sur le port 3000.
 
-## Fonctionnement
+## Utilisation de l'API
 
 L'envoi du ticket doit se faire par l'émission d'un Body de type raw via Postman, ou autre, à l'URL suivante : localhost:3000/ticket via la méthode POST.
 
@@ -34,6 +34,20 @@ POST /ticket HTTP/1.1
 Host: localhost:3000
 Content-Type: text/plain
 ```
+
+## Exemple de payload attendu
+
+```
+Order: 123456
+VAT: 3.10
+Total: 16.90
+
+product,product_id,price
+Formule(s) midi,aZde,14.90
+Café,IZ8z,2
+```
+
+## Fonctionnement
 
 L'application permet de procéder à la bonne gestion du ticket de caisse si ces conditions sont respectées : 
  - Les attributs du ticket sont en première partie et séparés des produits par un saut de ligne.
