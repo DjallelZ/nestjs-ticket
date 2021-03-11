@@ -1,10 +1,6 @@
 ## Description
 
-Gestion d'un ticket de caisse avec NestJS et TypeScript.
-
-C'est mon premier projet avec TypeScript et NestJS. 
-
-J'ai décidé d'utiliser NestJS afin de développer rapidement et efficacement cette application tout en m'assurant une architecture simple et lisible.
+Gestion d'un ticket de caisse avec NestJS et TypeScript dans le cadre d'un test de développement.
 
 ## Installation
 
@@ -56,8 +52,3 @@ Si tout se passe bien, le ticket et les produits liés sont créés/mis à jour.
  - Architecture simple et modulaire
  - Gestion automatisée et orientée objet du CRUD avec TypeORM ne nécessitant pas de requêtes SQL
  - Gestion des dépendances facilitée par les décorateurs
-
-## Compromis :
- - Validation des données saisies et transmises entre fonctions non assurées par des DTO
- - Problématiques de volumétrie et performances insuffisamment traitées
-
